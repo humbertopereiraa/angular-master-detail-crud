@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Category } from './model/category.model';
+import { CategoryService } from './service/category.service';
 
 @Component({
   selector: 'app-category-list',
@@ -6,11 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./category-list.component.css'],
 })
 export class CategoryListComponent implements OnInit {
-  constructor() {}
+  public categories: Category[] = [];
+  constructor(private categoryService: CategoryService) {}
 
-  ngOnInit(): void {}
+  async ngOnInit(): Promise<void> {
+    this.categories = await this.categoryService.getAll().toPromise();
+  }
 
-  public deletarCategory(): void {
-    alert('deletar');
+  public deletarCategory(id: number): void {
+    alert(id);
   }
 }
