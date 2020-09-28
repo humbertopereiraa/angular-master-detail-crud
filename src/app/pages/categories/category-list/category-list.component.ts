@@ -9,6 +9,8 @@ import { CategoryService } from './service/category.service';
 })
 export class CategoryListComponent implements OnInit {
   public categories: Category[] = [];
+  public page: number = 1;
+
   constructor(private categoryService: CategoryService) {}
 
   async ngOnInit(): Promise<void> {
@@ -16,6 +18,12 @@ export class CategoryListComponent implements OnInit {
   }
 
   public deletarCategory(id: number): void {
-    alert(id);
+    const deletar = confirm('Desejar realmente deletar este item?');
+
+    if (deletar) {
+      this.categoryService.delete(id).subscribe(() => {
+        this.categories = this.categories.filter((item) => item.id !== id);
+      });
+    }
   }
 }
